@@ -17,9 +17,12 @@ ADHD is charectorized by `time blindness`, `weak executive functions`, `distract
 
 Best used as a chrome app. Open `localhost:3004` on browser. `Save and share`->`install page as app`. Resize window to smallest size possible. All the best. 
 
-## Demo
+## Demo (Video)
 
 [![Loom Video](https://cdn.loom.com/sessions/thumbnails/519e4a0c1b1f4916aa1e5013b939fd87-6726577a5fbce6e3-full-play.gif)](https://www.loom.com/share/519e4a0c1b1f4916aa1e5013b939fd87)
+
+## Screenshots
+<img width="481" alt="image" src="https://github.com/user-attachments/assets/543d9106-31fa-4e2f-922c-13e2e21fa6df">
 
 ## Getting Started
 
