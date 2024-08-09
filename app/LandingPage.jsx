@@ -42,7 +42,7 @@ function BioCard({timeRemaining,dayTotal}) {
         max possible output
       </Typography>
       <Typography level='h3' color={statusColor} component='h3' sx={{ textAlign:'center',fontSize:35,fontWeight:1000}}>
-        {max_possible_work?.toFixed(1)} Hrs <Typography sx={{color:'grey'}}> + 2.0 hrs</Typography>
+        {max_possible_work?.toFixed(1)} Hrs <Typography sx={{color:'grey'}}> + {buffer.toFixed(1)} hrs</Typography>
       </Typography>
       <Typography>
         {done.toFixed(1)} hrs + {remaining.toFixed(1)} hrs + {buffer.toFixed(1)} hrs<br/>
