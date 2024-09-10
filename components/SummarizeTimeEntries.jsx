@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import { Typography, Stack } from "@mui/joy"
-import {Table,Link} from 'switchless'
+import { Typography, Stack } from "@mui/joy";
+import {Table,Link} from 'switchless';
+import queryString from 'query-string';
+
 
 
 function summarizeByProject(timeEntries){
@@ -61,13 +63,20 @@ function displayTime(time){
   return formattedTime;
 }
 
+function generateHREF(searchParams){  
+  return '?'+queryString.stringify(searchParams);
+}
+
 export default function SummarizeTimeEntries({timeEntries,searchParams}){
   let projectSummary = summarizeByProject(timeEntries);
   let departmentSummary = summarizeByDepartment(timeEntries);
   let descriptionSummary = summarizeByDescription(timeEntries);
   return (
     <>
+    
       <Typography level="h3"> Summary:</Typography>
+      
+  
       {/* <p>count = {timeEntries.length}</p> */}
       <Stack 
         direction={{ xs: 'column', md: 'row' }} 
@@ -78,7 +87,7 @@ export default function SummarizeTimeEntries({timeEntries,searchParams}){
         <Table>
           <thead>
             <tr>
-              <th style={{ width: 350 }}>Department</th>
+              <th style={{ width: 350 }}>Department ({departmentSummary.length})</th>
               <th style={{ width: 150 }}>Time</th>
             </tr>
           </thead>
@@ -86,7 +95,8 @@ export default function SummarizeTimeEntries({timeEntries,searchParams}){
             {departmentSummary.map((s)=>(
               <tr key={s.id}>
                 <td>{s.group}</td>
-                <td><Link href={`?from=${searchParams.from}&to=${searchParams.to}&department=${encodeURIComponent(s.group)}`}>{displayTime(s.value)}</Link></td>
+                {/* <td><Link href={`?from=${searchParams.from}&to=${searchParams.to}&department=${encodeURIComponent(s.group)}`}>{displayTime(s.value)}</Link></td> */}
+                <td><Link href={generateHREF({from:searchParams?.from,to:searchParams.to,department:s.group})}>{displayTime(s.value)}</Link></td>
               </tr> 
             ))}
           </tbody>
@@ -94,7 +104,7 @@ export default function SummarizeTimeEntries({timeEntries,searchParams}){
         <Table>
           <thead>
             <tr>
-              <th style={{ width: 350 }}>Project</th>
+              <th style={{ width: 350 }}>Project ({projectSummary.length})</th>
               <th style={{ width: 150 }}>Time</th>
             </tr>
           </thead>
@@ -102,7 +112,8 @@ export default function SummarizeTimeEntries({timeEntries,searchParams}){
             {projectSummary.map((s)=>(
               <tr key={s.id}>
                 <td>{s.group}</td>
-                <td><Link href={`?from=${searchParams.from}&to=${searchParams.to}&project=${s.group}`}>{displayTime(s.value)}</Link></td>
+                {/* <td><Link href={`?from=${searchParams.from}&to=${searchParams.to}&project=${s.group}`}>{displayTime(s.value)}</Link></td> */}
+                <td><Link href={generateHREF({from:searchParams?.from,to:searchParams.to,project:s.group})}>{displayTime(s.value)}</Link></td>
               </tr> 
             ))}
           </tbody>
@@ -110,15 +121,16 @@ export default function SummarizeTimeEntries({timeEntries,searchParams}){
         <Table>
           <thead>
             <tr>
-              <th style={{ width: 350 }}>Description</th>
+              <th style={{ width: 350 }}>Description ({descriptionSummary.length})</th>
               <th style={{ width: 150 }}>Time</th>
             </tr>
           </thead>
           <tbody>
-            {descriptionSummary.map((s)=>(
+            {descriptionSummary.splice(0,100).map((s)=>(
               <tr key={s.id}>
                 <td>{s.group}</td>
-                <td><Link href={`?from=${searchParams.from}&to=${searchParams.to}&description=${s.group}`}>{displayTime(s.value)}</Link></td>
+                {/* <td><Link href={`?from=${searchParams.from}&to=${searchParams.to}&description=${s.group}`}>{displayTime(s.value)}</Link></td> */}
+                <td><Link href={generateHREF({from:searchParams?.from,to:searchParams.to,description:s.group})}>{displayTime(s.value)}</Link></td>
               </tr> 
             ))}
           </tbody>

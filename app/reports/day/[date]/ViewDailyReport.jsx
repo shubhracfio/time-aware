@@ -1,5 +1,6 @@
 'use client';
-import { Typography, IconButton } from '@mui/joy';
+import { Typography, IconButton,Stack } from '@mui/joy';
+import { Link } from 'switchless';
 import ReactECharts from 'echarts-for-react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -80,6 +81,15 @@ let generateChartOption= function(timeEntries){
   return option;
 }
 
+function DayOfWeek({date}){
+  let days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  let dayOfWeek = days[new Date(date).getDay()];
+  return (
+    <Typography level="h3" sx={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {dayOfWeek}
+    </Typography>
+  )
+}
 export default function ViewDailyReport({timeEntries,params,searchParams}){
   const router = useRouter();
   const option = generateChartOption(timeEntries);
@@ -144,6 +154,19 @@ export default function ViewDailyReport({timeEntries,params,searchParams}){
 
   return (
     <>
+      <Stack 
+        direction={{ xs: 'column', md: 'row' }} 
+        spacing={2}
+        alignItems="flex-end"
+        useFlexGap 
+        sx={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        // flexWrap="wrap"
+      >
+        {searchParams.description && <Typography level="body"> Filtered by Description</Typography>}
+        {searchParams.project && <Typography level="body"> Filtered by Project</Typography>}
+        {searchParams.department && <Typography level="body"> Filtered by Department</Typography>}
+        {(searchParams.description || searchParams.project || searchParams.department) && <Link href='?'>Clear</Link>}
+      </Stack>
       <Typography level="h1" sx={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <IconButton onClick={handlePrevDay} sx={{ mr: 1 }}>
           <ChevronLeftIcon sx={{ fontSize: 40 }} />
@@ -153,8 +176,9 @@ export default function ViewDailyReport({timeEntries,params,searchParams}){
           <ChevronRightIcon sx={{ fontSize: 40 }} />
         </IconButton>
       </Typography>
+      <DayOfWeek date={params.date}/>
       <ReactECharts option={option}/>
-      <SummarizeTimeEntries timeEntries={timeEntries}/>
+      <SummarizeTimeEntries timeEntries={timeEntries} searchParams={searchParams}/>
       {/* <ReactECharts option={pieOption}/> */}
       
       {/* <pre>{JSON.stringify(departments,null,2)}</pre> */}
