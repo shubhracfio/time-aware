@@ -269,7 +269,7 @@ function todayStats({entries}){
 
 export const revalidate = 60; // Revalidate this page every 60 seconds
 
-export default async function Home() {
+export default async function Page({params,searchParams}) {
   let config = {}
   let days=1;
   let date = new Date().getTime()-24*60*60*1000*(days-1)
@@ -292,5 +292,5 @@ export default async function Home() {
     
   let {day_total,table:today_stats_table}=todayStats({entries});
   
-  return <LandingPage timeRemaining={time_remaining} dayTotal={day_total}/>
+  return <LandingPage timeRemaining={time_remaining} dayTotal={day_total} searchParams={searchParams}/>
 }
