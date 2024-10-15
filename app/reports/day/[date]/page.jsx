@@ -1,26 +1,28 @@
 import * as _ from 'lodash';
-import rawTimeEntries from '@/temp/time_entry2.json';
 import ViewDailyReport from "./ViewDailyReport"
+import UpdateReportData from '@/components/UpdateReportData/UpdateReportData';
+import db from '@/database';
 
-export default function Page({params,searchParams}){
-  var timeEntries = _.filter(rawTimeEntries, entry => {
-    let include=false;
-    include=(entry.nth_date == params.date );
-    if(include && searchParams.description)
-      include=(entry.description==searchParams.description)
-    else if(include && searchParams.project)
-      include=(entry.project==searchParams.project)
-    else if(include && searchParams.department)
-      include=(entry.department==searchParams.department)
-    return include;
+export default async function Page({params, searchParams}) {
+  var where = {
+    nth_date: params.date,
+    description:searchParams.description,
+    project:searchParams.project,
+    department:searchParams.department,
+  }
+  // where = _.pickBy(where, _.identity);
+  where = _.pickBy(where);
+  var timeEntries = await db.TimeEntry.findAll({
+    where: where,
+    raw:true
   });
-
   return (
     <>
-      
+      <UpdateReportData/>
       {/* <pre>{JSON.stringify(params,null,2)}</pre> */}
       {/* <pre>{JSON.stringify(rawTimeEntries,null,2)}</pre> */}
       {/* <pre>{JSON.stringify(timeEntries,null,2)}</pre> */}
+      {timeEntries.length}
       <ViewDailyReport params={params} searchParams={searchParams} timeEntries={timeEntries}/>
     </>
   )
