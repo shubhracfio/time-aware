@@ -53,12 +53,12 @@ export function timeRemaining({config}){
           time=0;
       var over = max_time-time;
       time_remaining[key]={
-          'remaining_raw':time/60,
-          'Max':`${parseInt(max_time/60)}h`,
-          'Over':over?`${parseInt(over/60)}h ${(over%60).toFixed(0)}m`:'',
-          'Over %':(over/max_time*100).toFixed(0)+' %',
-          'Remaining':time?`${parseInt(time/60)}h ${(time%60).toFixed(0)}m`:'',
-          'Remaining %':(time/max_time*100).toFixed(0)+' %',
+        'remaining_raw':time/60,
+        'Max':`${parseInt(max_time/60)}h`,
+        'Over':over?`${parseInt(over/60)}h ${(over%60).toFixed(0)}m`:'',
+        'Over %':(over/max_time*100).toFixed(0)+' %',
+        'Remaining':time?`${parseInt(time/60)}h ${(time%60).toFixed(0)}m`:'',
+        'Remaining %':(time/max_time*100).toFixed(0)+' %',
       }
   })
   
