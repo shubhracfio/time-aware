@@ -102,16 +102,16 @@ export function hourlyStats({entries}){
 		var hour_total={
 			recorded:0,
 			distractions:0,
-			personal:0,
+			// personal:0,
 			useful:0
 		}
 		entries.forEach(function(e){
 			if(e.hour==hour){
 				hour_total.recorded+=e.time;
-				if(!e.project || e.project=='Distraction')
+				if(!e.project || e.project=='Distraction' || e.project=='Undefined')
 					hour_total.distractions+=e.time;
-				else if(e.project=='Personal')
-					hour_total.personal+=e.time;
+				// else if(e.project=='Personal')
+				// 	hour_total.personal+=e.time;
 				else
 					hour_total.useful+=e.time;
 			}
@@ -127,13 +127,13 @@ export function todayStats({entries}){
   var day_total={
     recorded:0,
     distractions:0,
-    personal:0,
+    // personal:0,
     useful:0
   };
   Object.keys(hourly_stats).forEach(function(hour){
     day_total.recorded+=hourly_stats[hour].recorded;
     day_total.distractions+=hourly_stats[hour].distractions;
-    day_total.personal+=hourly_stats[hour].personal;
+    // day_total.personal+=hourly_stats[hour].personal;
     day_total.useful+=hourly_stats[hour].useful;
     if(parseInt(hour)>=6 && parseInt(hour)<19){ // including buffer zone
       useful_work_during_work_window+=hourly_stats[hour].useful;
