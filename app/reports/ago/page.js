@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
-import rawTimeEntries from '@/temp/time_entry2.json';
+import rawTimeEntries from '@/temp/time_entry_for_report2.json';
 import rawDailyStats from '@/temp/daily_stats.json';
 import TimeAgoReport from "./TimeAgoReport"
 import calculateDailyStats from '@/lib/calculateDailyStats';
+import UpdateReportData from '@/components/UpdateReportData/UpdateReportData';
 
 export default function Page({params,searchParams}){
   var timeEntries = _.filter(rawTimeEntries, entry => {
@@ -31,6 +32,7 @@ export default function Page({params,searchParams}){
   let dailyStats=calculateDailyStats(timeEntries);
   return (
     <>
+      <UpdateReportData/>
       <TimeAgoReport params={params} searchParams={searchParams} timeEntries={timeEntries} dailyStats={dailyStats}/>
     </>
   )

@@ -6,6 +6,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRouter } from 'next/navigation';
 import SummarizeTimeEntries from '@/components/SummarizeTimeEntries';
+import { useEffect, useState, useMemo } from 'react';
 
 let generateChartOption= function(timeEntries){
   const hours = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'];
@@ -21,7 +22,8 @@ let generateChartOption= function(timeEntries){
     'Development / Tech': '#bee843',
     'PLG': '#4ECDC4',
     'Production Line': '#7CB342',
-    'Distraction': '#FF4500'  // Added new item with a different shade of red
+    'Distraction': '#FF4500',  // Added new item with a different shade of red
+    'Undefined': '#FF4500'  // Added new item with a different shade of red
   };
   let series=[];
   departments.forEach(function(department){
@@ -92,8 +94,18 @@ function DayOfWeek({date}){
 }
 export default function ViewDailyReport({timeEntries,params,searchParams}){
   const router = useRouter();
-  const option = generateChartOption(timeEntries);
-  let departments = [...new Set(timeEntries.map(entry => entry.department))];
+  
+  // Use useMemo to recalculate option only when timeEntries changes
+  const option = useMemo(() => generateChartOption(timeEntries), [timeEntries]);
+
+  // Add a key to force re-render
+  const [chartKey, setChartKey] = useState(0);
+
+  useEffect(() => {
+    // Increment the key to force a re-render of the chart
+    setChartKey(prevKey => prevKey + 1);
+  }, [option]);
+
   const handlePrevDay = () => {
     const currentDate = new Date(params.date);
     currentDate.setDate(currentDate.getDate() - 1);
@@ -165,7 +177,7 @@ export default function ViewDailyReport({timeEntries,params,searchParams}){
         {searchParams.description && <Typography level="body"> Filtered by Description</Typography>}
         {searchParams.project && <Typography level="body"> Filtered by Project</Typography>}
         {searchParams.department && <Typography level="body"> Filtered by Department</Typography>}
-        {(searchParams.description || searchParams.project || searchParams.department) && <Link href='?'>Clear</Link>}
+        {(searchParams.description || searchParams.project || searchParams.department || searchParams.hour) && <Link href='?'>Clear</Link>}
       </Stack>
       <Typography level="h1" sx={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <IconButton onClick={handlePrevDay} sx={{ mr: 1 }}>
@@ -177,8 +189,14 @@ export default function ViewDailyReport({timeEntries,params,searchParams}){
         </IconButton>
       </Typography>
       <DayOfWeek date={params.date}/>
-      <ReactECharts option={option}/>
+      
+      {/* <ReactECharts option={option}/> */}
+      {/* <ReactECharts key={chartKey} option={option}/> */}
+      {/* <ReactECharts  notMerge={true} option={option}/> */}
+      <ReactECharts  notMerge={true} lazyUpdate={false} option={option}/>
+      
       <SummarizeTimeEntries timeEntries={timeEntries} searchParams={searchParams}/>
+      
       {/* <ReactECharts option={pieOption}/> */}
       
       {/* <pre>{JSON.stringify(departments,null,2)}</pre> */}
