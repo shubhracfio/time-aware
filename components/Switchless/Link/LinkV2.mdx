@@ -1,0 +1,52 @@
+import { Canvas, Meta,Title, Subtitle, Description, Primary, Controls, Stories, Story } from '@storybook/blocks';
+import * as LinkV2Stories from './LinkV2.stories';
+
+<Meta of={LinkV2Stories} />
+
+
+
+# LinkV2
+<Subtitle>
+Feature of Next/Link combined with MUI/Joy components.
+</Subtitle>
+A much more customisable version of the LinkV1 component, where you can pass
+**sx**, **onClick** props along with MUI/Joy Components as **Component** props.
+
+
+## Usage
+
+<Primary >
+  <LinkV2Stories.Default />
+</Primary>
+
+
+<Controls of={LinkV2Stories.Default} />
+### Default Component Story
+This is the default link example using the LinkV2 component.
+<Primary >
+  <LinkV2Stories.Default />
+</Primary>
+
+
+
+
+### With Custom Styles
+use the **sx** prop to pass in custom styles to the component.
+<Canvas of={LinkV2Stories.WithCustomStyles} />
+ 
+### With Custom Component
+Use the *optional* **Component prop** to pass in a MUI/Joy components to the component.The component will 
+have the Navigation Properites of Next Js.
+> **Alert**: When you pass a custom component to the **Component** prop, any wrapped content of the LinkV2 component will be ignored.
+
+
+
+<Canvas of={LinkV2Stories.WithCustomComponent} />
+
+### With onClick
+Use the *optional* **onClick** prop to pass in a function to be called when the link is clicked.
+<Canvas of={LinkV2Stories.WithOnClick} />
+
+
+
+
